@@ -1,0 +1,52 @@
+------------------------------------------
+To run the code first you need few things:
+------------------------------------------
+
+-I used influxdb(Database) in it. You can install it manaully if you want but I used the docker containers, they are easy to use and you only need to install docker tool for first.
+
+-If you are using docker on ubuntu, you can install it from "https://docs.docker.com/engine/installation/linux/ubuntulinux/" or some other OS of your choice. 
+
+-if you get some error while running 'docker' command, run it with sudo.
+
+-When docker is running, you can run the influxdb docker container.
+
+-Run two commands, 'docker pull influxdb' and 'docker pull grafana'
+
+-Grafana is a tool to visualize anything stored inside of Influxdb or any other timeseries database.
+
+-Once they are pulled successfully, run
+'docker run -d --name=grafana -p 3000:3000 grafana/grafana'
+and;
+'docker run -d -p 8083:8083 -p 8086:8086 -v influxdb:/var/lib/influxdb influxdb'
+
+-You can view your database at 'http://<ip of the host where is it's running>:8083'
+and grafana UI on 'http://<host ip>:3000'
+
+-----------------------------------------
+Run the main code now:
+-----------------------------------------
+
+-Once every thing is up and running, clone the pox repo from git
+
+-Replace 'pox/pox/forwarding/l2_pairs.py' with my 'l2_pairs.py' and place 'firewall.py' inside 'pox/pox/misc/'
+
+-To run the controller
+'./pox.py log.level --INFO forwarding.l2_pairs misc.firewall'
+
+-To change the values of certain hosts, I have provided another file by the name 'prototype.py'
+
+-run this file and it will guide you through how to change values. (Remember change values after when flowstats have any info about the mac address that you are trying to change and they should be of the format 'xx-xx-xx-xx-xx-xx')
+
+-Fourth file is just a text file that contains Facebook IPs, place it in the directory of 'pox.py'.
+
+------------------------------------------
+Setup Grafana to visualize
+------------------------------------------
+-'http://<host ip>:3000'
+-username=admin and pass=admin
+-Go in the datasources menu
+-Give name to your db, select influxdb db in the next dropdown list, put it's credentials that are root and root. It's ip would be 'http://<host ip>:8086'
+-Save and verify
+-Go in the dashboards menu, make new one. Plot something (Follow it's website, it has everything explained)
+
+If you still face any issues, you can always contact me, don't worry.
